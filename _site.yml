@@ -1,6 +1,6 @@
-name: "MyLabJournal"
+name: "Abraham Sandoval Iñiguez"
 navbar:
-  title: "MyLabJournal"
+  title: "Abraham Sandoval Iñiguez"
   left:
     - text: "Home"
       href: index.html
