@@ -1,10 +1,10 @@
-name: "Abraham Sandoval Iñiguez"
+name: "Abraham's R Workspace"
 navbar:
-  title: "Abraham Sandoval Iñiguez"
+  title: "Abraham's R Workspace"
   left:
     - text: "Home"
       href: index.html
-    - text: "Journal"
+    - text: "Assignments"
       href: Journal.html
     - text: "Links"
       href: Links.html
