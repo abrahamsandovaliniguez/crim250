@@ -358,9 +358,12 @@ div.tocify {
 <pre class="r"><code>dat$state &lt;- tolower(rownames(USArrests))
 state &lt;- dat$state</code></pre>
 <p>This dataset has the state names as row names, so we just want to make them into a new variable. We also make them all lower case, because that will help us draw a map later - the map function requires the states to be lower case.</p>
-<p>List the variables contained in the dataset <code>USArrests</code>: murder, assault, urbanpop, rape, and state.</p>
+<p>List the variables contained in the dataset <code>USArrests</code>.</p>
+</div>
+<div id="murder-assault-urbanpop-rape-and-state.-the-last-state-is-notably-excluded-from-the-knitted-pdf-yet-is-featured-in-the-console." class="section level3">
+<h3>murder, assault, urbanpop, rape, and state. The last, state, is notably excluded from the knitted pdf yet is featured in the console.</h3>
 <pre class="r"><code>names(dat)</code></pre>
-<pre><code>## [1] &quot;Murder&quot;   &quot;Assault&quot;  &quot;UrbanPop&quot; &quot;Rape&quot;</code></pre>
+<pre><code>## [1] &quot;Murder&quot;   &quot;Assault&quot;  &quot;UrbanPop&quot; &quot;Rape&quot;     &quot;state&quot;</code></pre>
 </div>
 <div id="problem-3" class="section level3">
 <h3>Problem 3</h3>
@@ -392,8 +395,15 @@ state &lt;- dat$state</code></pre>
 ##  Median : 7.250   Median :159.0   Median :66.00   Median :20.10  
 ##  Mean   : 7.788   Mean   :170.8   Mean   :65.54   Mean   :21.23  
 ##  3rd Qu.:11.250   3rd Qu.:249.0   3rd Qu.:77.75   3rd Qu.:26.18  
-##  Max.   :17.400   Max.   :337.0   Max.   :91.00   Max.   :46.00</code></pre>
-<p>The mean for murder is 7.788, which is the average of all state murder rates; the median of 7.25 is in contrast the figure at the middle of the string of variables if sequenced. The quartiles are the percentiles of the data. Combined, both the 1st and 3rd quartile depict where half the data lies betwee. That is, 25% of states have murder rates below 4.075, the 1st Quartile, while 75% of states have murder rates are less than 11.25. Likewise, 75% of states have murder rates higher than 4.075 and 25% of states have a murder rate higher than 11.25; 50% of states would thus have a murder rate between 4.075 and 11.25. R must provide the percentiles or quartiles to depict where half of the data lies between, presenting a numerical bell curve of sorts.</p>
+##  Max.   :17.400   Max.   :337.0   Max.   :91.00   Max.   :46.00  
+##     state          
+##  Length:50         
+##  Class :character  
+##  Mode  :character  
+##                    
+##                    
+## </code></pre>
+<p>The mean for murder is 7.788, which is the average of all state murder rates; the median of 7.25 is in contrast the figure at the middle of the string of variables if sequenced. The quartiles are the percentiles of the data. Combined, both the 1st and 3rd quartile depict where half the data lies betwee. That is, 25% of states have murder rates below 4.075, the 1st Quartile, while 75% of states have murder rates are less than 11.25. Likewise, 75% of states have murder rates higher than 4.075 and 25% of states have a murder rate higher than 11.25; 50% of states would thus have a murder rate between 4.075 and 11.25. R must provide the percentiles or quartiles to depict where half of the data lies between, presenting a numerical bell curve of sorts. *The .rmd file notably produces a summary of the state variable as well, with a length of 50 and a class and mode of character. The calculation, however, is cut out in the knitted pdf document.</p>
 </div>
 <div id="problem-7" class="section level3">
 <h3>Problem 7</h3>
@@ -423,9 +433,11 @@ hist(dat$Murder, main=&quot;Frequency of State Rape Rates&quot;,
 library(&#39;maps&#39;) 
 library(&#39;ggplot2&#39;) 
 
+
 ggplot(dat, aes(map_id=state, fill=Murder)) + 
   geom_map(map=map_data(&quot;state&quot;)) + 
   expand_limits(x=map_data(&quot;state&quot;)$long, y=map_data(&quot;state&quot;)$lat)</code></pre>
+<p><img src="Journal_files/figure-html/unnamed-chunk-8-1.png" width="720" /></p>
 <p>What does this code do? Explain what each line is doing.</p>
 <p>Answer: The code generates a map of the United States where each state is shaded according to their murder rate. States with darker shadings have lower murder rates as those with ligher shades have higher murder rates. The install commands download the graphed data, that is they download a map and hold the manipulated data. The ggplot command then creates the graph by loading the “dat” variable, which was predefined as the US Arrest data. The map is then divided along state lines and shaded according to the murder rate, per the map_id and fill command respectively. The geom_map command allows for additional manipulation to the states’ borders, defining each state alongside existing state boundaries. Finally, the expand_limits command expands the graph by manipulating the x and y axes.</p>
 <p><span class="math display">\[\\[2in]\]</span></p>
