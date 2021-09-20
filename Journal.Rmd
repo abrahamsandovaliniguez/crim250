@@ -1,13 +1,15 @@
 ---
 title: "Assignments"
 output:
+  pdf_document:
+    toc: yes
+    toc_depth: '1'
   html_document:
-    toc: true
-    toc_float: true
-    collapsed: false
-    number_sections: false
+    toc: yes
+    toc_float: yes
+    collapsed: no
+    number_sections: no
     toc_depth: 1
-    #code_folding: hide
 ---
 
 ```{r setup, include=FALSE}
@@ -34,19 +36,21 @@ dat <- USArrests
 
 Use this command to make the state names into a new variable called State. 
 
-```{r, eval=FALSE}
+```{r}
 dat$state <- tolower(rownames(USArrests))
 state <- dat$state
 ```
 
 This dataset has the state names as row names, so we just want to make them into a new variable. We also make them all lower case, because that will help us draw a map later - the map function requires the states to be lower case.
 
-List the variables contained in the dataset `USArrests`:
-murder, assault, urbanpop, rape, and state.
+List the variables contained in the dataset `USArrests`.
+
+### murder, assault, urbanpop, rape, and state. The last, state, is notably excluded from the knitted pdf yet is featured in the console.
 
 ```{r}
 names(dat)
 ```
+
 
 
 ### Problem 3 
@@ -85,7 +89,7 @@ Please summarize `Murder` quantitatively. What are its mean and median? What is 
 ```{r}
 summary(dat)
 ```
-The mean for murder is 7.788, which is the average of all state murder rates; the median of 7.25 is in contrast the figure at the middle of the string of variables if sequenced. The quartiles are the percentiles of the data. Combined, both the 1st and 3rd quartile depict where half the data lies betwee. That is, 25% of states have murder rates below 4.075, the 1st Quartile, while 75% of states have murder rates are less than 11.25. Likewise, 75% of states have murder rates higher than 4.075 and 25% of states have a murder rate higher than 11.25; 50% of states would thus have a murder rate between 4.075 and 11.25. R must provide the percentiles or quartiles to depict where half of the data lies between, presenting a numerical bell curve of sorts.
+The mean for murder is 7.788, which is the average of all state murder rates; the median of 7.25 is in contrast the figure at the middle of the string of variables if sequenced. The quartiles are the percentiles of the data. Combined, both the 1st and 3rd quartile depict where half the data lies betwee. That is, 25% of states have murder rates below 4.075, the 1st Quartile, while 75% of states have murder rates are less than 11.25. Likewise, 75% of states have murder rates higher than 4.075 and 25% of states have a murder rate higher than 11.25; 50% of states would thus have a murder rate between 4.075 and 11.25. R must provide the percentiles or quartiles to depict where half of the data lies between, presenting a numerical bell curve of sorts. *The .rmd file notably produces a summary of the state variable as well, with a length of 50 and a class and mode of character. The calculation, however, is cut out in the knitted pdf document.
 
 
 ### Problem 7
@@ -120,11 +124,12 @@ In the console below (not in text), type `install.packages("maps")` and press En
 
 Run this code:
 
-```{r, eval = FALSE, fig.width = 7.5, fig.height = 4}
+```{r, fig.width = 7.5, fig.height = 4}
 # install.packages("maps")
 # install.packages("ggplot2")
 library('maps') 
 library('ggplot2') 
+
 
 ggplot(dat, aes(map_id=state, fill=Murder)) + 
   geom_map(map=map_data("state")) + 
