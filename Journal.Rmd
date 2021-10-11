@@ -156,6 +156,7 @@ setwd("/Users/sandiguez/Documents/School/Fall2021/CRIM250/Assignments/Assignment
 dat <- read.csv(file = 'dat.nsduh.small.1.csv')
 
 # What are the dimensions of the dataset? 
+names(dat)
 #  "mjage"  "cigage" "iralcage"  "age2" "sexatract" "speakengl" "irsex" 
 
 
