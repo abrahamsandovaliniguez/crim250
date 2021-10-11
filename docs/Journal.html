@@ -445,7 +445,347 @@ ggplot(dat, aes(map_id=state, fill=Murder)) +
 </div>
 <div id="assignment-2" class="section level1">
 <h1>Assignment 2</h1>
-<p>(Coming soon)</p>
+<div id="problem-1-load-data" class="section level3">
+<h3>Problem 1: Load data</h3>
+<pre class="r"><code>dat &lt;- read.csv(file = &#39;assignment 2/dat.nsduh.small.1.csv&#39;)</code></pre>
+<p>What are the dimensions of the dataset?</p>
+<pre class="r"><code>names(dat)</code></pre>
+<pre><code>## [1] &quot;mjage&quot;     &quot;cigage&quot;    &quot;iralcage&quot;  &quot;age2&quot;      &quot;sexatract&quot; &quot;speakengl&quot;
+## [7] &quot;irsex&quot;</code></pre>
+</div>
+<div id="problem-2-variables" class="section level3">
+<h3>Problem 2: Variables</h3>
+<p>Describe the variables in the dataset. “mjage”: age of when participants first tried marijuana “cigage”: age of when participants first tried cigarettes “iralcage”: age of when participants first tried alcohol “age2”: calculated ages of participants given multiple responses “sexatract”:sexual attraction of participants “speakengl”: english proficiency level of participants “irsex”: sex of participants</p>
+<p>What is this dataset about? Who collected the data, what kind of sample is it, and what was the purpose of generating the data? The dataset is collected from the National Study of Drug Use and Health, which seeks to identify the ages at which the study’s participants first began consuming alcohol, cigarettes, and marijuana. The study further collects data on its participants’ demographic data, such as age, gender, and sexual orientation, as well as English proficiency. The study’s variables are a mixture of categorical and quantitative variables. An example of the former, categorical, includes the sex, English proficiency, and sexual orientation variables. Others, such as the age variables, would be categorized as quantitative.</p>
+</div>
+<div id="problem-3-age-and-gender" class="section level3">
+<h3>Problem 3: Age and gender</h3>
+<p>What is the age distribution of the sample like? Make sure you read the codebook to know what the variable values mean.</p>
+<pre class="r"><code>hist(dat$age2)</code></pre>
+<p><img src="Journal_files/figure-html/unnamed-chunk-11-1.png" width="672" /> The age distribution of the sample size is very heavily skewed towards individuals 35 to 49 years old, or rather the category associated with the age group is the largest proportionately. This may be because the younger age groups are split and divided along single years and later grouped in categories of growing margins. For example, ages 12 to 21 are all categories along single-year lines whereas ages 30 to 64 are all divided in three categories. The sum of the earlier younger ages may result in a more proportional balance of the different ages.</p>
+<p>Do you think this age distribution representative of the US population? Why or why not? No, the distribution does not represent an accurate representation of the US population. This is due to two primary reasons, with the study’s intent being the most important. Because the study seeks to identify the ages at which its participants first began utilizing substances, its participants are not entirely random. The study was conducted for a purpose other than studying the US population, which may present sample size issues. An example of this influence is the lack of participants ages 12 and younger. The absence of this age group presents the second reason why the study cannot produce accurate figures on the US population.</p>
+<p>Is the sample balanced in terms of gender? If not, are there more females or males? The sample size is nearly balanced; however, women do slightly outnumber men in a ratio of approximately 52 to 48.</p>
+<p>Use this code to draw a stacked bar plot to view the relationship between sex and age. What can you conclude from this plot?</p>
+<pre class="r"><code>tab.agesex &lt;- table(dat$irsex, dat$age2)
+barplot(tab.agesex,
+        main = &quot;Stacked barchart&quot;,
+        xlab = &quot;Age category&quot;, ylab = &quot;Frequency&quot;,
+        legend.text = rownames(tab.agesex),
+        beside = FALSE)</code></pre>
+<p><img src="Journal_files/figure-html/unnamed-chunk-12-1.png" width="672" /> Stacked bars (default) The stacked bar plot above allows us to view the gender ratio of each individual age group. Most categories appear to be relatively balances, although there appear to be some notable exceptions. Columns 6, 7, and 17 are disproportionately male, whereas columns 8 and 9 are mostly comprised of women.</p>
+</div>
+<div id="problem-4-substance-use" class="section level3">
+<h3>Problem 4: Substance use</h3>
+<p>For which of the three substances included in the dataset (marijuana, alcohol, and cigarettes) do individuals tend to use the substance earlier? As can be seen below, the substance with the earliest apparent use is alcohol, which has the lowest mean, median, and first quarter figure, with the lowest reported minimum age.</p>
+<pre class="r"><code>summary(dat)</code></pre>
+<pre><code>##      mjage           cigage         iralcage          age2      
+##  Min.   : 7.00   Min.   :10.00   Min.   : 5.00   Min.   : 4.00  
+##  1st Qu.:14.00   1st Qu.:15.00   1st Qu.:13.00   1st Qu.:13.00  
+##  Median :16.00   Median :17.00   Median :15.00   Median :15.00  
+##  Mean   :15.99   Mean   :17.65   Mean   :14.95   Mean   :13.98  
+##  3rd Qu.:17.50   3rd Qu.:19.00   3rd Qu.:17.00   3rd Qu.:15.00  
+##  Max.   :35.00   Max.   :50.00   Max.   :23.00   Max.   :17.00  
+##    sexatract       speakengl        irsex      
+##  Min.   : 1.00   Min.   :1.00   Min.   :1.000  
+##  1st Qu.: 1.00   1st Qu.:1.00   1st Qu.:1.000  
+##  Median : 1.00   Median :1.00   Median :1.000  
+##  Mean   : 3.07   Mean   :1.07   Mean   :1.468  
+##  3rd Qu.: 1.00   3rd Qu.:1.00   3rd Qu.:2.000  
+##  Max.   :99.00   Max.   :3.00   Max.   :2.000</code></pre>
+<p>mjage: minimum age of 7 with a first quarter of 14 and a mean of 15.99. cigage: minimum age of 10 with a first quarter of 15 and a mean of 17.65. iralcage: minimum age of 5 with a first quarter of 13 and a mean of 14.95.</p>
+</div>
+<div id="problem-5-sexual-attraction" class="section level3">
+<h3>Problem 5: Sexual attraction</h3>
+<p>What does the distribution of sexual attraction look like? Is this what you expected?</p>
+<pre class="r"><code>hist(dat$sexatract)</code></pre>
+<p><img src="Journal_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<pre class="r"><code>dat$sexatract.nas &lt;- ifelse(dat$sexatract==99, NA, dat$sexatract) 
+dat$sexatract.nas</code></pre>
+<pre><code>##   [1]  1  2  2  1  4  4  1  1  1  1  1  1  1  1  1  1  1  1  1  1  5  1  1  5  2
+##  [26]  1  1  1  1 NA  1  1  1  2 NA  1  1  1  1  2  1  1  1  1  2  1  1  3  1  1
+##  [51]  2  1  1  1  1  1  1  1  1  1  1  3  2  1  1  3  1  1  1  1  1  1  1  1  1
+##  [76]  1  1  5  1  1  1  1  1  4  1  1  2  1  1  1  1  2  2  1  1  1  6  1  1  1
+## [101]  1  1  1  1  1  1  3  1  1  2  3  1  2  1  1  1  1  1  1  1  3  1  1  1  1
+## [126]  1  2  3  1  1  3  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1
+## [151]  1  1  1  1  1  1  1  1  1  1  2  1  1  2  1  1  1  1  3  1 NA</code></pre>
+<pre class="r"><code>sexatract.no.nas &lt;- na.omit(dat$sexatract.nas)
+barplot(table(sexatract.no.nas))</code></pre>
+<p><img src="Journal_files/figure-html/unnamed-chunk-14-2.png" width="672" /> Yes, the unaltered histogram presents two notable columns, which represent the variables’ options of 1-6 and 85, 94, and 97-99. Most participants answered the survey, however nearly a quarter of participants were categorized in the latter portion of answers as they either skipped the question, left the answer blank, or refused. Respondents who participated and answered the question were overwhelmingly attracted to and only to members of the opposite sex; however, small, single-digit percentages did document being attracted to the same sex or both the opposite and same sex. The figures, which may not accurately represent the United States, are expected.</p>
+<p>What is the distribution of sexual attraction by gender?</p>
+<pre class="r"><code>tab.prefsex &lt;- table(dat$irsex, dat$sexatract.nas)
+barplot(tab.prefsex,
+        main = &quot;Stacked barchart&quot;,
+        xlab = &quot;Sexual preference category&quot;, ylab = &quot;Frequency&quot;,
+        legend.text = rownames(tab.prefsex),
+        beside = FALSE)</code></pre>
+<p><img src="Journal_files/figure-html/unnamed-chunk-15-1.png" width="672" /> Each category has its own sex ratio. The first, 1, is nearly 2 to 3 men to women, while later options such as 2 and three are disproportionately comprised of women. Later options, such as 5 and 6 are mostly male.</p>
+</div>
+<div id="problem-6-english-speaking" class="section level3">
+<h3>Problem 6: English speaking</h3>
+<p>What does the distribution of English speaking look like in the sample? Is this what you might expect for a random sample of the US population?</p>
+<pre class="r"><code>boxplot(table(dat$speakengl), ylim = c(0,100))</code></pre>
+<p><img src="Journal_files/figure-html/unnamed-chunk-16-1.png" width="672" /> Yes, the vast majority of participants are English proficient with only a very small minority expressing hesitance with the language. The participants may not reflect the US population, however, as communities of particular groups, such as migrants, may be hesitant to participant in a study.</p>
+<p>Are there more English speaker females or males?</p>
+<pre class="r"><code>tab.engprof &lt;- table(dat$irsex, dat$speakengl)
+barplot(tab.engprof,
+        main = &quot;Stacked barchart&quot;,
+        xlab = &quot;English proficiency category&quot;, ylab = &quot;Frequency&quot;,
+        legend.text = rownames(tab.engprof),
+        beside = FALSE)</code></pre>
+<p><img src="Journal_files/figure-html/unnamed-chunk-17-1.png" width="672" /> Most participants who answered they were English proficient were male.</p>
+<p><span class="math display">\[\\[2in]\]</span></p>
+</div>
+</div>
+<div id="midterm-1" class="section level1">
+<h1>Midterm 1</h1>
+<div id="instructions" class="section level3">
+<h3>Instructions</h3>
+<ol style="list-style-type: lower-alpha">
+<li><p>Create a folder in your computer (a good place would be under Crim 250, Exams).</p></li>
+<li><p>Download the dataset from the Canvas website (fatal-police-shootings-data.csv) onto that folder, and save your Exam 1.Rmd file in the same folder.</p></li>
+<li><p>Download the README.md file. This is the codebook.</p></li>
+<li><p>Load the data into an R data frame.</p></li>
+</ol>
+<pre class="r"><code>   dat &lt;- read.csv(&quot;midterm 1/fatal-police-shootings-data.csv&quot;)</code></pre>
+</div>
+<div id="problem-1-1" class="section level3">
+<h3>Problem 1</h3>
+<ol style="list-style-type: lower-alpha">
+<li>Describe the dataset. This is the source: <a href="https://github.com/washingtonpost/data-police-shootings" class="uri">https://github.com/washingtonpost/data-police-shootings</a> . Write two sentences (max.) about this.</li>
+</ol>
+<p>The dataset, compiled by the Washington Post, seeks to maintain a record of all fatal police shootings since January 1, 2015. The dataset further elaborates on shooting incidents by tracking various variables, including the race of the deceased, the deceased’s mental health statuses, whether the deceased had a gun, and the circumstances surrounding their death.</p>
+<ol start="2" style="list-style-type: lower-alpha">
+<li>How many observations are there in the data frame?</li>
+</ol>
+<pre class="r"><code>   head(dat)</code></pre>
+<pre><code>##   id               name       date  manner_of_death      armed age gender race
+## 1  3         Tim Elliot 2015-01-02             shot        gun  53      M    A
+## 2  4   Lewis Lee Lembke 2015-01-02             shot        gun  47      M    W
+## 3  5 John Paul Quintero 2015-01-03 shot and Tasered    unarmed  23      M    H
+## 4  8    Matthew Hoffman 2015-01-04             shot toy weapon  32      M    W
+## 5  9  Michael Rodriguez 2015-01-04             shot   nail gun  39      M    H
+## 6 11  Kenneth Joe Brown 2015-01-04             shot        gun  18      M    W
+##            city state signs_of_mental_illness threat_level        flee
+## 1       Shelton    WA                    True       attack Not fleeing
+## 2         Aloha    OR                   False       attack Not fleeing
+## 3       Wichita    KS                   False        other Not fleeing
+## 4 San Francisco    CA                    True       attack Not fleeing
+## 5         Evans    CO                   False       attack Not fleeing
+## 6       Guthrie    OK                   False       attack Not fleeing
+##   body_camera longitude latitude is_geocoding_exact
+## 1       False  -123.122   47.247               True
+## 2       False  -122.892   45.487               True
+## 3       False   -97.281   37.695               True
+## 4       False  -122.422   37.763               True
+## 5       False  -104.692   40.384               True
+## 6       False   -97.423   35.877               True</code></pre>
+<p>By simply running “dat”, we can see that there are 6,594 rows of data with 17 columns. Said columns, which can be identified using the “names(dat)” command are as follows: “id”, “name”, “date”, “manner_of_death”, “armed”, “age”, “gender”, “race”, “city”, “state”, “signs_of_mental_illness”, “threat_level”, “flee”, “body_camera”, “longitude”, “latitude”, and“is_geocoding_exact”</p>
+<ol start="3" style="list-style-type: lower-alpha">
+<li>Look at the names of the variables in the data frame. Describe what “body_camera”, “flee”, and “armed” represent, according to the codebook. Again, only write one sentence (max) per variable.</li>
+</ol>
+<pre class="r"><code> names(dat)</code></pre>
+<pre><code>##  [1] &quot;id&quot;                      &quot;name&quot;                   
+##  [3] &quot;date&quot;                    &quot;manner_of_death&quot;        
+##  [5] &quot;armed&quot;                   &quot;age&quot;                    
+##  [7] &quot;gender&quot;                  &quot;race&quot;                   
+##  [9] &quot;city&quot;                    &quot;state&quot;                  
+## [11] &quot;signs_of_mental_illness&quot; &quot;threat_level&quot;           
+## [13] &quot;flee&quot;                    &quot;body_camera&quot;            
+## [15] &quot;longitude&quot;               &quot;latitude&quot;               
+## [17] &quot;is_geocoding_exact&quot;</code></pre>
+<pre class="r"><code> #dat$body_camera
+ #dat$flee
+ #dat$armed</code></pre>
+<p>The prior three listed variables all present various conditions on the shooting’s circumstances. “body_camera” explains whether the police officer was wearing a body camera during the interaction with the deceased. “flee” explains whether the deceased was moving away or fleeting from the police officers during the interaction and by what means, as reported by news reports. Lastly, “armed” details whether the victim was armed during the interaction with the officer and what object was believed to be the armed weapon.</p>
+<ol start="4" style="list-style-type: lower-alpha">
+<li>What are three weapons that you are surprised to find in the “armed” variable? Make a table of the values in “armed” to see the options.</li>
+</ol>
+<pre class="r"><code> table(dat$armed)</code></pre>
+<pre><code>## 
+##                                                   air conditioner 
+##                              207                                1 
+##                       air pistol                   Airsoft pistol 
+##                                1                                3 
+##                               ax                         barstool 
+##                               24                                1 
+##                     baseball bat          baseball bat and bottle 
+##                               20                                1 
+## baseball bat and fireplace poker           baseball bat and knife 
+##                                1                                1 
+##                            baton                           BB gun 
+##                                6                               15 
+##               BB gun and vehicle                     bean-bag gun 
+##                                1                                1 
+##                      beer bottle                       binoculars 
+##                                3                                1 
+##                     blunt object                           bottle 
+##                                5                                1 
+##                    bow and arrow                       box cutter 
+##                                1                               13 
+##                            brick              car, knife and mace 
+##                                2                                1 
+##                          carjack                            chain 
+##                                1                                3 
+##                        chain saw                         chainsaw 
+##                                2                                1 
+##                            chair              claimed to be armed 
+##                                4                                1 
+##               contractor&#39;s level                   cordless drill 
+##                                1                                1 
+##                         crossbow                          crowbar 
+##                                9                                5 
+##                        fireworks                         flagpole 
+##                                1                                1 
+##                       flashlight                      garden tool 
+##                                2                                2 
+##                      glass shard                          grenade 
+##                                4                                1 
+##                              gun                      gun and car 
+##                             3798                               12 
+##                    gun and knife                  gun and machete 
+##                               22                                3 
+##                    gun and sword                  gun and vehicle 
+##                                1                               17 
+##              guns and explosives                           hammer 
+##                                3                               18 
+##                       hand torch                          hatchet 
+##                                1                               14 
+##                  hatchet and gun                         ice pick 
+##                                2                                1 
+##                incendiary device                            knife 
+##                                2                              955 
+##                knife and vehicle                 lawn mower blade 
+##                                1                                2 
+##                          machete                  machete and gun 
+##                               51                                1 
+##                     meat cleaver                  metal hand tool 
+##                                6                                2 
+##                     metal object                       metal pipe 
+##                                5                               16 
+##                       metal pole                       metal rake 
+##                                4                                1 
+##                      metal stick                       microphone 
+##                                3                                1 
+##                       motorcycle                         nail gun 
+##                                1                                1 
+##                              oar                       pellet gun 
+##                                1                                3 
+##                              pen                     pepper spray 
+##                                1                                2 
+##                         pick-axe                    piece of wood 
+##                                4                                7 
+##                             pipe                        pitchfork 
+##                                7                                2 
+##                             pole                   pole and knife 
+##                                3                                2 
+##                  railroad spikes                             rock 
+##                                1                                7 
+##                    samurai sword                         scissors 
+##                                4                                9 
+##                      screwdriver                     sharp object 
+##                               16                               14 
+##                           shovel                            spear 
+##                                7                                2 
+##                          stapler              straight edge razor 
+##                                1                                5 
+##                            sword                            Taser 
+##                               23                               34 
+##                        tire iron                       toy weapon 
+##                                4                              226 
+##                          unarmed                     undetermined 
+##                              421                              188 
+##                   unknown weapon                          vehicle 
+##                               82                              213 
+##                  vehicle and gun              vehicle and machete 
+##                                8                                1 
+##                    walking stick                       wasp spray 
+##                                1                                1 
+##                           wrench 
+##                                1</code></pre>
+<p>The objects that most surprised me were a flagpole, binoculars, and air conditioner.</p>
+</div>
+<div id="problem-2-1" class="section level3">
+<h3>Problem 2</h3>
+<ol style="list-style-type: lower-alpha">
+<li>Describe the age distribution of the sample. Is this what you would expect to see?</li>
+</ol>
+<pre class="r"><code> hist(dat$age)</code></pre>
+<p><img src="Journal_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
+<p>The distribution of dat$age is right-skewed with a median of 35 but a mean of 37.12. This indicates that most victims of police fatality shootings were younger individuals between the ages of 27 and 45, per the first and third percentiles The findings are expected as individuals of this age group are more likely to be out committing crimes and then fleeing or objecting to arrest with weapons, relative to the elderly or very young children. There are also no unrealistic outliers in the dataset.</p>
+<ol start="2" style="list-style-type: lower-alpha">
+<li>To understand the center of the age distribution, would you use a mean or a median, and why? Find the one you picked.</li>
+</ol>
+<pre class="r"><code> summary(dat$age)</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
+##    6.00   27.00   35.00   37.12   45.00   91.00     308</code></pre>
+<p>Due to the lack of outliers and the seemingly representative, normal distribution of the data, I would opt for the mean as it would allow for better calculations with age as a quantitative variable. While the distribution is slightly skewed, there are little concerns about the tail variables throwing off the study. In fact, their inclusion would be ideal.</p>
+<ol start="3" style="list-style-type: lower-alpha">
+<li>Describe the gender distribution of the sample. Do you find this surprising?</li>
+</ol>
+<pre class="r"><code># table(dat$gender)
+pie(table(dat$gender))</code></pre>
+<p><img src="Journal_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
+<pre class="r"><code>#barplot(table(dat$gender))</code></pre>
+<p>The distribution of gender is very heavily male-dominate. There are 6298 male incidents of fatal police shootings to 293 for female victims, with 3 cases being outliners. As can be seen in the pie chart, males are the vast majority of victims in police shootings. Women are approximately 4.65% of cases while men are 95. 35% of cases. I opted for a pie chart over a barplot to highlight the overwhelming ratio; however, both graphs can be used for gender/sex comparisons.</p>
+</div>
+<div id="problem-3-1" class="section level3">
+<h3>Problem 3</h3>
+<ol style="list-style-type: lower-alpha">
+<li>How many police officers had a body camera, according to news reports? What proportion is this of all the incidents in the data? Are you surprised that it is so high or low?</li>
+</ol>
+<pre class="r"><code> table(dat$body_camera)</code></pre>
+<pre><code>## 
+## False  True 
+##  5684   910</code></pre>
+<p>As reported by R, 5684 police officers were not wearing body cameras while only 910 were; that is, approximately 86.2% of police officers in all of the Washington Post’s documented fatal shootings were not wearing body cameras, while only 13.8% were indeed wearing body cameras. The report is surprising given how widespread body camera use has become nationwide. As an individual, I am also conflicted that such a large percentage of police shootings went undocumented by the police officers’ account. That presents issues for accountability assuming police officers were acting in ill standards. The percentage may be slim but for 86.2% of all documented fatal shootings to be unrecorded from the police officer’s point of view is troubling.</p>
+<ol start="2" style="list-style-type: lower-alpha">
+<li>In how many of the incidents was the victim fleeing? What proportion is this of the total number of incidents in the data? Is this what you would expect?</li>
+</ol>
+<pre class="r"><code> table(dat$flee)</code></pre>
+<pre><code>## 
+##                     Car        Foot Not fleeing       Other 
+##         491        1058         845        3952         248</code></pre>
+<p>The table command indicates that there were 3952 cases of victims not fleeing, with 1058 incidents of victims fleeing in a car, 845 via foot, or 248 by other means for a total of 2151 fleeing individuals. The final proportions are thus 59.9% of victims not fleeing and 32.6% of victims fleeing either via car, foot, or other means. As a note, there are 491 cases of missing variables. The findings are therefore puzzling as only approximately a third of fatal police shooting victims were fleeing. The approximate percent of 59.9% of victims who were not fleeing is troubling from the civilian’s perspective.</p>
+</div>
+<div id="problem-4-1" class="section level3">
+<h3>Problem 4</h3>
+<ol style="list-style-type: lower-alpha">
+<li>Describe the relationship between the variables “body camera” and “flee” using a stacked barplot. What can you conclude from this relationship?</li>
+</ol>
+<p><em>Hint 1: The categories along the x-axis are the options for “flee”, each bar contains information about whether the police officer had a body camera (vertically), and the height along the y-axis shows the frequency of that category).</em></p>
+<p><em>Hint 2: Also, if you are unsure about the syntax for barplot, run ?barplot in R and see some examples at the bottom of the documentation. This is usually a good way to look up the syntax of R code. You can also Google it.</em></p>
+<pre class="r"><code># dat$body_camera
+# dat$flee
+tab.cameraflee &lt;- table(dat$body_camera, dat$flee)
+barplot(tab.cameraflee,
+        main = &quot;Worn Body Cameras by Incidents of Fleeing&quot;,
+        xlab = &quot;Fleeting Conditions or Means&quot;, ylab = &quot;Frequency&quot;,
+        legend.text = rownames(tab.cameraflee),
+        ylim = c(0, 5000),
+        beside = FALSE)</code></pre>
+<p><img src="Journal_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
+<p>The relationship between variables body_camera and fleeing detail what proportion of incidents involving victims fleeing form the police were recorded by police body cameras. As can be noted, police body cameras were not present across all incidents of fleeing or the lack thereof as well. Most cases involving police body cameras were those where the victim was not fleeing. As a note, the column furthest on the left includes incidents of missing variables where the fleeing condition is unknown. We still see here that police body cameras were still not widely used.</p>
+<p>Extra credit</p>
+<ol style="list-style-type: lower-alpha">
+<li>What does this code tell us?</li>
+</ol>
+<pre class="r"><code>mydates &lt;- as.Date(dat$date)
+head(mydates)
+(mydates[length(mydates)] - mydates[1])</code></pre>
+<p>The code presents an ordinal sequence for the dates in the dataset, during which all incidents of police shootings were captured. “mydates &lt;- as.Date(dat$date)” reformates the “date” variable as dates in R, with “head(mydates)” presenting a brief summary of the first few entires. The command “(mydates[length(mydates)] - mydates[1])” then subtracts the final date entry from the first in order to conclude how many dates are included overall in the dataset. There are 2458 days for a total of 6,594 fatal police shootings.</p>
+<ol start="2" style="list-style-type: lower-alpha">
+<li>On Friday, a new report was published that was described as follows by The Guardian: “More than half of US police killings are mislabelled or not reported, study finds.” Without reading this article now (due to limited time), why do you think police killings might be mislabelled or underreported?</li>
+</ol>
+<p>Police shootings may be mislabelled or underreported due to the presence of missing variables. For values such as fleeing, armed, and race, there are various missing variables. The result creates some uncertainty about specific statistical findings. The main reason, however, for why cases may be underreported or mislabelled has to do with the lack of a concrete dataset. Various institutions and organizations nationwide document fatal police shootings but, as stated, the figures are non-exhaustive. The Washington Post has alone documented more than twice the recorded fatal police shooting incidents than the FBI and the Centers for Disease Control and Prevention. Existing datasets are further jeopardized by the inconsistency of local police office in incident reporting as each department and office can report cases distinctly.</p>
+<ol start="3" style="list-style-type: lower-alpha">
+<li>Regarding missing values in problem 4, do you see any? If so, do you think that’s all that’s missing from the data?</li>
+</ol>
+<p>Yes, there are approximately 500 missing fleeing values in problem 4. I am unable to determine, however, if the missing variables are solely absent from the fleeing variable or if they have broader absent values as well. I will note, however, that the variable “body_camera” has 6594 cases and “gender” has 6591 complete variables. Their near completion indicates that some variables are indeed exhaustive or missing just 3 entries. Thus, I am unable to determine whether the missing fleeing variables are an anomaly or whether data is consistently absent.</p>
+<pre class="r"><code>#table(dat$gender)
+#table(dat$body_camera)</code></pre>
+<p><span class="math display">\[\\[2in]\]</span></p>
+<p>Assignment 3 [Coming Soon]</p>
+</div>
 </div>
 
 
