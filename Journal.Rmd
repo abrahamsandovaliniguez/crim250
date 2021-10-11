@@ -45,7 +45,6 @@ This dataset has the state names as row names, so we just want to make them into
 
 List the variables contained in the dataset `USArrests`.
 
-### murder, assault, urbanpop, rape, and state. The last, state, is notably excluded from the knitted pdf yet is featured in the console.
 
 ```{r}
 names(dat)
