@@ -145,8 +145,228 @@ $$\\[2in]$$
 
 
 
-# Assignment 2 
+# Assignment 2
 
-(Coming soon)
+```{r}
+# Problem 1: Load data
+# Set your working directory to the folder where you downloaded the data.
+setwd("/Users/sandiguez/Documents/School/Fall2021/CRIM250/Assignments/Assignment 2")
+
+# Read the data
+dat <- read.csv(file = 'dat.nsduh.small.1.csv')
+
+# What are the dimensions of the dataset? 
+#  "mjage"  "cigage" "iralcage"  "age2" "sexatract" "speakengl" "irsex" 
 
 
+## Problem 2: Variables
+# Describe the variables in the dataset.
+#"mjage": age of when participants first tried marijuana
+#"cigage": age of when participants first tried cigarettes
+#"iralcage": age of when participants first tried alcohol
+#"age2": calculated ages of participants given multiple responses
+#"sexatract":sexual attraction of participants
+#"speakengl": english proficiency level of participants
+#"irsex": sex of participants
+
+# What is this dataset about? Who collected the data, what kind of sample is it, and what was the purpose of generating the data?
+# The dataset is collected from the National Study of Drug Use and Health, which seeks to identify the ages at which the study's participants first began consuming alcohol, cigarettes, and marijuana. The study further collects data on its participants' demographic data, such as age, gender, and sexual orientation, as well as English proficiency. The study's variables are a mixture of categorical and quantitative variables. An example of the former, categorical, includes the sex, English proficiency, and sexual orientation variables. Others, such as the age variables, would be categorized as quantitative. 
+
+
+## Problem 3: Age and gender
+# What is the age distribution of the sample like? Make sure you read the codebook to know what the variable values mean.
+hist(dat$age2)
+# The age distribution of the sample size is very heavily skewed towards individuals 35 to 49 years old, or rather the category associated with the age group is  the largest proportionately. This may be because the younger age groups are split and divided along single years and later grouped in categories of growing margins. For example, ages 12 to 21 are all categories along single-year lines whereas ages 30 to 64 are all divided in three categories. The sum of the earlier younger ages may result in a more proportional balance of the different ages.
+
+# Do you think this age distribution representative of the US population? Why or why  not?
+# No, the distribution does not represent an accurate representation of the US population. This is due to two primary reasons, with the study's intent being the most important. Because the study seeks to identify the ages at which its participants first began utilizing substances, its participants are not entirely random. The study was conducted for a purpose other than studying the US population, which may present sample size issues. An example of this influence is the lack of participants ages 12 and younger. The absence of this age group presents the second reason why the study cannot produce accurate figures on the US population.
+
+# Is the sample balanced in terms of gender? If not, are there more females or males?
+# The sample size is nearly balanced; however, women do slightly outnumber men in a ratio of approximately 52 to 48.
+
+# Use this code to draw a stacked bar plot to view the relationship between sex and age. What can you conclude from this plot?
+tab.agesex <- table(dat$irsex, dat$age2)
+barplot(tab.agesex,
+        main = "Stacked barchart",
+        xlab = "Age category", ylab = "Frequency",
+        legend.text = rownames(tab.agesex),
+        beside = FALSE) # Stacked bars (default)
+# the stacked bar plot above allows us to view the gender ratio of each individual age group. Most categories appear to be relatively balances, although there appear to be some notable exceptions. Columns 6, 7, and 17 are disproportionately male, whereas columns 8 and 9 are mostly comprised of women.
+
+
+## Problem 4: Substance use
+# For which of the three substances included in the dataset (marijuana, alcohol, and cigarettes) do individuals tend to use the substance earlier?
+# As can be seen below, the substance with the earliest apparent use is alcohol, which has the lowest mean, median, and first quarter figure, with the lowest reported minimum age. 
+summary(dat)
+#mjage: minimum age of 7 with a first quarter of 14 and a mean of 15.99.
+#cigage: minimum age of 10 with a first quarter of 15 and a mean of 17.65.
+#iralcage: minimum age of 5 with a first quarter of 13 and a mean of 14.95.
+
+
+## Problem 5: Sexual attraction
+# What does the distribution of sexual attraction look like? Is this what you expected?
+hist(dat$sexatract)
+dat$sexatract.nas <- ifelse(dat$sexatract==99, NA, dat$sexatract) 
+dat$sexatract.nas
+sexatract.no.nas <- na.omit(dat$sexatract.nas)
+barplot(table(sexatract.no.nas))
+# Yes, the unaltered histogram presents two notable columns, which represent the variables' options of 1-6 and 85, 94, and 97-99. Most participants answered the survey, however nearly a quarter of participants were categorized in the latter portion of answers as they either skipped the question, left the answer blank, or refused. Respondents who participated and answered the question were overwhelmingly attracted to and only to members of the opposite sex; however, small, single-digit percentages did document being attracted to the same sex or both the opposite and same sex. The figures, which may not accurately represent the United States, are  expected.
+
+# What is the distribution of sexual attraction by gender? 
+tab.prefsex <- table(dat$irsex, dat$sexatract.nas)
+barplot(tab.prefsex,
+        main = "Stacked barchart",
+        xlab = "Sexual preference category", ylab = "Frequency",
+        legend.text = rownames(tab.prefsex),
+        beside = FALSE)
+# Each category has its own sex ratio. The first, 1, is nearly 2 to 3 men to women, while later options such as 2 and three are disproportionately comprised of women. Later options, such as 5 and 6 are mostly male.
+
+
+## Problem 6: English speaking
+# What does the distribution of English speaking look like in the sample? Is this what you might expect for a random sample of the US population?
+boxplot(table(dat$speakengl), ylim = c(0,100))
+# Yes, the vast majority of participants are English proficient with only a very small minority expressing hesitance with the language. The participants may not reflect the US population, however, as communities of particular groups, such as migrants, may be hesitant to participant in a study.
+
+# Are there more English speaker females or males?
+tab.engprof <- table(dat$irsex, dat$speakengl)
+barplot(tab.engprof,
+        main = "Stacked barchart",
+        xlab = "English proficiency category", ylab = "Frequency",
+        legend.text = rownames(tab.engprof),
+        beside = FALSE)
+# Most participants who answered they were English proficient were male. 
+
+```
+
+$$\\[2in]$$
+
+
+# Midterm 1
+
+### Problem 1 
+
+Install the datasets package on the console below using `install.packages("datasets")`. Now load the library.
+
+```{r}
+library(datasets)
+```
+
+Load the USArrests dataset and rename it `dat`. Note that this dataset comes with R, in the package datasets, so there's no need to load data from your computer. Why is it useful to rename the dataset?
+
+```{r}
+dat <- USArrests
+```
+
+
+### Problem 2
+
+Use this command to make the state names into a new variable called State. 
+
+```{r}
+dat$state <- tolower(rownames(USArrests))
+state <- dat$state
+```
+
+This dataset has the state names as row names, so we just want to make them into a new variable. We also make them all lower case, because that will help us draw a map later - the map function requires the states to be lower case.
+
+List the variables contained in the dataset `USArrests`.
+
+### murder, assault, urbanpop, rape, and state. The last, state, is notably excluded from the knitted pdf yet is featured in the console.
+
+```{r}
+names(dat)
+```
+
+
+
+### Problem 3 
+
+What type of variable (from the DVB chapter) is `Murder`? 
+
+Answer: According to the DVB reading, murder would be a quantitative variable within this particular context.
+
+What R Type of variable is it?
+
+Answer: Murder is a UNIVARIATE NON-GRAPHICAL variable in R.
+
+
+### Problem 4
+
+What information is contained in this dataset, in general? What do the numbers mean? 
+
+Answer: The dataset's variables compare the incidents or rates of murder, assault, and rape along state lines, as well as those of urban population sizes. Given the tenths decimal places featured in the categories of murder and rape, it is safe to assume those numbers present rates of reported incidents as neither murder nor rape can occur to a tenth degree. Assault, on the contrary, appears to be reported as raw, reported incidents given the data is presented as whole integers. The state category lists the various American states, adjacent to each states' urban population. As a note, the urban population data is presented seemingly as either proportional integers or on a scale; to illustrate, any one state's urban population data may identify what percentage of the state's population lives in an urban center. 
+
+
+### Problem 5
+
+Draw a histogram of `Murder` with proper labels and title.
+
+```{r}
+hist(dat$Murder, main="Frequency of State Murder Rates",
+     xlab="Murder Rate Per [X] People", ylab="Number of States",
+     xlim=c(0,20), col="maroon", breaks=10, xaxp=c(0,20,10))
+```
+
+
+### Problem 6
+
+Please summarize `Murder` quantitatively. What are its mean and median? What is the difference between mean and median? What is a quartile, and why do you think R gives you the 1st Qu. and 3rd Qu.?
+
+```{r}
+summary(dat)
+```
+The mean for murder is 7.788, which is the average of all state murder rates; the median of 7.25 is in contrast the figure at the middle of the string of variables if sequenced. The quartiles are the percentiles of the data. Combined, both the 1st and 3rd quartile depict where half the data lies betwee. That is, 25% of states have murder rates below 4.075, the 1st Quartile, while 75% of states have murder rates are less than 11.25. Likewise, 75% of states have murder rates higher than 4.075 and 25% of states have a murder rate higher than 11.25; 50% of states would thus have a murder rate between 4.075 and 11.25. R must provide the percentiles or quartiles to depict where half of the data lies between, presenting a numerical bell curve of sorts. *The .rmd file notably produces a summary of the state variable as well, with a length of 50 and a class and mode of character. The calculation, however, is cut out in the knitted pdf document.
+
+
+### Problem 7
+
+Repeat the same steps you followed for `Murder`, for the variables `Assault` and `Rape`. Now plot all three histograms together. You can do this by using the command `par(mfrow=c(3,1))` and then plotting each of the three. 
+
+```{r, echo = TRUE, fig.width = 5, fig.height = 8,}
+par(mfrow=c(3,1))
+hist(dat$Murder, main="Frequency of State Murder Rates",
+     xlab="Murder Rate Per [X] People", ylab="Number of States",
+     xlim=c(0,20), col="maroon", breaks=10, xaxp=c(0,20,10))
+hist(dat$Assault, main="Frequency of States' Reported Assaults",
+     xlab="Incidents of Assault", ylab="Number of States",
+     xlim=c(0,400), col="darkorange", breaks=10, xaxp=c(0,400,8))
+hist(dat$Murder, main="Frequency of State Rape Rates", 
+     xlab="Rape Rate Per [X] People", ylab="Number of States",
+     xlim=c(0,20), col="brown", breaks=10, xaxp=c(0,20,10))
+```
+
+What does the command par do, in your own words (you can look this up by asking R `?par`)?
+
+Answer: Command par allows you define the parameters of a graph or computation. In this specific case, we set the parameters to the entirety of three graphs, which are all included in one plot.
+
+What can you learn from plotting the histograms together?
+
+Answer: By plotting all three plots adjacent of one another, the combined graphic allows for a quick assessment of the number of states with varying assault, murder, and rape rates. The graph thus allows you for a quick comparison of central tendency, spread, skewness, and kurtosis for the various crimes. 
+  
+  
+### Problem 8
+
+In the console below (not in text), type `install.packages("maps")` and press Enter, and then type `install.packages("ggplot2")` and press Enter. This will install the packages so you can load the libraries.
+
+Run this code:
+
+```{r, fig.width = 7.5, fig.height = 4}
+# install.packages("maps")
+# install.packages("ggplot2")
+library('maps') 
+library('ggplot2') 
+
+
+ggplot(dat, aes(map_id=state, fill=Murder)) + 
+  geom_map(map=map_data("state")) + 
+  expand_limits(x=map_data("state")$long, y=map_data("state")$lat)
+```
+
+What does this code do? Explain what each line is doing.
+
+Answer: The code generates a map of the United States where each state is shaded according to their murder rate. States with darker shadings have lower murder rates as those with ligher shades have higher murder rates. The install commands download the graphed data, that is they download a map and hold the manipulated data. The ggplot command then creates the graph by loading the "dat" variable, which was predefined as the US Arrest data. The map is then divided along state lines and shaded according to the murder rate, per the map_id and fill command respectively. The geom_map command allows for additional manipulation to the states' borders, defining each state alongside existing state boundaries. Finally, the expand_limits command expands the graph by manipulating the x and y axes.
+
+$$\\[2in]$$
+
+
+Assignment 3 [Coming Soon]
