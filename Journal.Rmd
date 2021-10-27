@@ -462,7 +462,7 @@ cor(dat.crime$R, dat.crime$Ed)
 ```
 
 
-```{r, fig.width=6, fig.height=4}
+```{r}
 par(mfrow=c(2,1))
 plot(dat.crime$R, dat.crime$Ed,  main="States' Crime Levels by Education Levels",
     xlab="(reported offenses per one million people)", ylab="(mean years of schooling (x10) for ages 25 and older)", xlim=c(0,200), ylim=c(0,140))
