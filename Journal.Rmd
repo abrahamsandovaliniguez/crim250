@@ -399,4 +399,131 @@ Yes, there are approximately 500 missing fleeing values in problem 4. I am unabl
 $$\\[2in]$$
 
 
-Assignment 3 [Coming Soon]
+# Assignment 3
+Load the data.
+```{r}
+library(readr)
+library(knitr)
+dat <- read.csv(file = "assignment 3/crime_simple.txt")
+```
+
+This is a dataset from a textbook by Brian S. Everitt about crime in the US in 1960. The data originate from the Uniform Crime Report of the FBI and other government sources. The data for 47 states of the USA are given. 
+
+### Codebook:
+
+R: Crime rate: # of offenses reported to police per million population
+
+Age: The number of males of age 14-24 per 1000 population
+
+S: Indicator variable for Southern states (0 = No, 1 = Yes)
+
+Ed: Mean of years of schooling x 10 for persons of age 25 or older
+
+Ex0: 1960 per capita expenditure on police by state and local government
+
+Ex1: 1959 per capita expenditure on police by state and local government
+
+LF: Labor force participation rate per 1000 civilian urban males age 14-24
+
+M: The number of males per 1000 females
+
+N: State population size in hundred thousands
+
+NW: The number of non-whites per 1000 population
+
+U1: Unemployment rate of urban males per 1000 of age 14-24
+
+U2: Unemployment rate of urban males per 1000 of age 35-39
+
+W: Median value of transferable goods and assets or family income in tens of $
+
+X: The number of families per 1000 earning below 1/2 the median income
+
+
+We are interested in checking whether the reported crime rate (# of offenses reported to police per million population) and the average education (mean number of years of schooling for persons of age 25 or older) are related. 
+
+
+### Problem 1.
+How many observations are there in the dataset? To what does each observation correspond?
+
+```{r, eval=FALSE}
+dat.crime
+```
+
+The overall "dat" dataset has fifty rows of data, with each row corresponding to a state. With the four variables of murder, assault, urban population, and rape, as well as an identifying state name value, the dataset lists rape and murder rates, as well as total cases of assault, in relation to states' urban populations. In contrast, the "dat.crime" dataset has 47 rows of data with 14 variables, or columns. Each row once again corresponds to a state's reported crime rate with their respective demographic information.
+
+### Problem 2.
+Draw a scatterplot of the two variables. Calculate the correlation between the two variables. Can you come up with an explanation for this relationship?
+
+```{r, fig.width=6, fig.height=4}
+crime.lm <- plot(dat.crime$R, dat.crime$Ed,  main="States' Crime Levels by Education Levels",
+    xlab="(reported offenses per one million people)", ylab="(mean years of schooling (x10) for ages 25 and older)")
+cor(dat.crime$R, dat.crime$Ed)
+```
+
+
+```{r, fig.width=6, fig.height=4}
+par(mfrow=c(2,1))
+plot(dat.crime$R, dat.crime$Ed,  main="States' Crime Levels by Education Levels",
+    xlab="(reported offenses per one million people)", ylab="(mean years of schooling (x10) for ages 25 and older)", xlim=c(0,200), ylim=c(0,140))
+plot(dat.crime$R, dat.crime$Ed,  main="States' Crime Levels by Education Levels",
+    xlab="(reported offenses per one million people)", ylab="(mean years of schooling (x10) for ages 25 and older)")
+```
+
+The calculated correlation between years of education and reported crime is 0.3228349. The relationship between the two variables thus appears to be low and statistically insignificant as the calculated value is a mere 0.3228349. The existing correlation may be a consequence of external forces. Disparities in schooling requirements may for example skew both variables as residents of particularly large or small states may be required to continue attending or deterred from remaining in school. The differences in social action may contribute to the formulation of an insignificant correlation. Visually, as indicated in the first graph, most plots appear to be scattered randomly across the determined scales. Fitting a regression line would be difficult for such a distribution. While the distribution does appear to become more narrowed once the scale is made to include 0 as the minimum value for the x- and y-axis, the distribution appears to be a consequence of the graph's manipulation rather than the variable's relationship.
+
+### Problem 3.
+Regress reported crime rate (y) on average education (x) and call this linear model `crime.lm` and write the summary of the regression by using this code, which makes it look a little nicer `{r, eval=FALSE} kable(summary(crime.lm)$coef, digits = 2)`.
+
+```{r} 
+dat.crime$R.c = scale(dat.crime$R, center=TRUE, scale=FALSE) # scaling the data
+crime.lm <- lm(R ~ Ed, data = dat.crime) # running regression
+summary(crime.lm) # calling the summary of the fitted model
+kable(summary(crime.lm)$coef, digits = 2) # making the summary look nicer
+```
+
+### Problem 4.
+Are the four assumptions of linear regression satisfied? To answer this, draw the relevant plots. (Write a maximum of one sentence per assumption.)
+1. The linearity assumption is not satisfied as the residuals versus x graph depicts a patterned upward distribution, which should be flat and roughly evenly distributed; the residuals versus fitted plot also does not follow a straight line.
+```{r} 
+par(mfrow=c(2,1))
+plot(dat.crime$R.c, crime.lm$residuals, main="Residuals vs. x", xlab="x, Scaled Crime", ylab="Residuals")
+abline(h = 0, lty="dashed")
+plot(crime.lm, which=1)
+```
+
+2. The independence assumption is not satisfied as, once again, a pattern can be noted in the distribution for residuals versus x.
+```{r} 
+plot(dat.crime$R.c, crime.lm$residuals, main="Residuals vs. x", xlab="x, Scaled Crime", ylab="Residuals")
+abline(h = 0, lty="dashed")
+```
+
+3. The equal variance assumption/homoscedasticity is not satisfied as the line is curved in the scale location plot and appears to fan out from a few relatively constant variables near the x value of 80 to a wide distribution where x>85.
+```{r} 
+plot(crime.lm, which=3)
+```
+
+4. The normal population assumption is not satisfied as both ends of the  QQ plot appear to be heavily skewed leftward of the fitted line.
+```{r} 
+plot(crime.lm, which=2)
+plot(crime.lm, which=5)
+```
+
+### Problem 5.
+Is the relationship between reported crime and average education statistically significant? Report the estimated coefficient of the slope, the standard error, and the p-value. What does it mean for the relationship to be statistically significant?
+
+The relationship between reported crime and average education is not statistically significant, with a reported estimated coefficient of 1.1161 for the slope, 0.4878 for the standard error, and 0.0269 for a one star p-value. In order for the relationship to be significant, the error value would have to be lower with a smaller decimal for the p-value, as well as a greater slope marking a stronger or more drastic relationship between the two variables. Had the variables had appropriate coefficients, then education level and reported crime rate may have had a correlatory relationship; however, such assessment would require additional information and studies.
+
+### Problem 6.
+How are reported crime and average education related? In other words, for every unit increase in average education, how does reported crime rate change (per million) per state?
+
+The calculated correlation between 1 year of education, expressed in values of ten, is 1.1161 per 100 million people in a given state. The finding would suggest 1 marginal year of education would equate to a 8.96 million increase in additional reported crimes. 
+
+### Problem 7.
+Can you conclude that if individuals were to receive more education, then crime will be reported more often? Why or why not?
+
+As stated, the relationship between the two variables appears to be low and reinstates the importance of differentiating correlation and causation, as well as the importance of assessing findings. The estimated coefficients not only indicate a weak statistical relationship but the derived weak correlation could be affected by external social forces. Determining any positive or negative relationship would thus be illogical. You cannot conclude that if individuals were to receive more education, then crime would be reported at higher rates.
+
+$$\\[2in]$$
+
+[Assignment 4 coming soon]

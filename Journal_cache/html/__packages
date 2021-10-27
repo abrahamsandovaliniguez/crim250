@@ -1,3 +1,5 @@
 base
 maps
 ggplot2
+readr
+knitr
