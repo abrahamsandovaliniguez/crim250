@@ -925,8 +925,171 @@ abline(h = 0, lty=&quot;dashed&quot;)</code></pre>
 <p>Can you conclude that if individuals were to receive more education, then crime will be reported more often? Why or why not?</p>
 <p>As stated, the relationship between the two variables appears to be low and reinstates the importance of differentiating correlation and causation, as well as the importance of assessing findings. The estimated coefficients not only indicate a weak statistical relationship but the derived weak correlation could be affected by external social forces. Determining any positive or negative relationship would thus be illogical. You cannot conclude that if individuals were to receive more education, then crime would be reported at higher rates.</p>
 <p><span class="math display">\[\\[2in]\]</span></p>
-<p>[Assignment 4 coming soon]</p>
 </div>
+</div>
+<div id="midterm-2" class="section level1">
+<h1>Midterm 2</h1>
+<div id="problem-1-eda" class="section level3">
+<h3>Problem 1: EDA</h3>
+<p>Describe the dataset and variables. Perform exploratory data analysis for the two variables of interest: funds and po.brut.</p>
+<pre class="r"><code>dat &lt;- read.csv(file = &#39;midterm 2/sim.data.csv&#39;)
+head(dat)</code></pre>
+<pre><code>##   po.dept.code funds po.brut
+## 1            1  48.1      23
+## 2            2  81.4      10
+## 3            3  41.8      25
+## 4            4  61.7      19
+## 5            5  86.4       8
+## 6            6  51.6      22</code></pre>
+<pre class="r"><code>summary(dat$funds)</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   21.40   51.67   59.75   61.04   72.17   99.70</code></pre>
+<pre class="r"><code>summary(dat$po.brut)</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##    0.00   14.00   19.00   18.14   22.00   29.00</code></pre>
+<pre class="r"><code>par(mfrow=c(2,1))
+hist(dat$funds)
+hist(dat$po.brut)</code></pre>
+<p><img src="Journal_files/figure-html/unnamed-chunk-39-1.png" width="672" /></p>
+<p>The dataset contains 200 rows of data with three columns: po.dept.code, funds, and po.brut. The first variable serves as an identifer, providing each studied police department with a unique variable for later reference. The second deliniates how much funding the respective police department recieves, with the last being the incidents of police brutality. The early data analysis indicates there are an average of 61 million dollars provided in funds to police departments and 18 cases of police brutality. Further, as indicated by the histograms, both variables appear to have normal distributions with no significant outliers.</p>
+</div>
+<div id="problem-2-linear-regression" class="section level3">
+<h3>Problem 2: Linear regression</h3>
+<ol style="list-style-type: lower-alpha">
+<li>Perform a simple linear regression to answer the question of interest. To do this, name your linear model “reg.output” and write the summary of the regression by using “summary(reg.output)”.</li>
+</ol>
+<pre class="r"><code>reg.output &lt;- lm(po.brut ~ funds, data = dat)
+summary(reg.output)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = po.brut ~ funds, data = dat)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -3.9433 -0.2233  0.2544  0.5952  1.1803 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 40.543069   0.282503  143.51   &lt;2e-16 ***
+## funds       -0.367099   0.004496  -81.64   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.9464 on 198 degrees of freedom
+## Multiple R-squared:  0.9712, Adjusted R-squared:  0.971 
+## F-statistic:  6666 on 1 and 198 DF,  p-value: &lt; 2.2e-16</code></pre>
+<ol start="2" style="list-style-type: lower-alpha">
+<li>Report the estimated coefficient, standard error, and p-value of the slope. Is the relationship between funds and incidents statistically significant? Explain.</li>
+</ol>
+<p>Estimated coefficient: -0.367099</p>
+<p>Estimated standard error: 0.004496</p>
+<p>Estimated p-value of the slope: &lt;2e-16 ***</p>
+<p>According to the estimated results for the linear regression, it appears we can reject the null hypothesis as there does indeed seem to be a significant correlation between increased marginal funding and decreasing incidents of police brutality. If noted, the estimated t-value is -81.64, which is significantly removed from the value of 0, thus allowing us to reject the null hypothesis. Further, with an estimated t value less than 2e-16, the relationship was generated a three star significance code, the highest of significant codes for correlation between two variables. The value is additionally complimented by a very low estimated standard error value, indicating a significant relationship. However, the difference between correlation and causation must be highlighted once again. It may be possible that the marginal funds provided are not causing the decrease in incidents, but rather the funding of possible programs that is enabled by additional funding. That is to say, there does appear to be a relationship between funding and incidents; yet, the relationship may not be causational and, thus, the correlation must be assessed critically.</p>
+<ol start="3" style="list-style-type: lower-alpha">
+<li>Draw a scatterplot of po.brut (y-axis) and funds (x-axis). Right below your plot command, use abline to draw the fitted regression line, like this:</li>
+</ol>
+<pre class="r"><code># Remember to remove eval=FALSE!!
+plot(dat$funds, dat$po.brut)
+abline(reg.output, col = &quot;red&quot;, lwd=2)</code></pre>
+<p><img src="Journal_files/figure-html/unnamed-chunk-41-1.png" width="384" /> Does the line look like a good fit? Why or why not?</p>
+<p>The fitted line does appear to be a good fit. While there are a few outliers, particularly in the data’s rightward and leftward values, most entries generally fall close near the produced line. The slope of the fitted line additionally follows the general distribution of the dataset.</p>
+<ol start="4" style="list-style-type: lower-alpha">
+<li>Are the four assumptions of linear regression satisfied? To answer this, draw the relevant plots. (Write a maximum of one sentence per assumption.) If not, what might you try to do to improve this (if you had more time)?</li>
+</ol>
+<ol style="list-style-type: decimal">
+<li>Linearity assumption is not satisfied as the first graph, residuals vs x, depict a patterned distribution when it should be flat and the second graph, residuals vs fitted, has a significantly curved line that should be flat.</li>
+</ol>
+<pre class="r"><code>plot(dat$funds, reg.output$residuals, main=&quot;Residuals vs. x&quot;, xlab=&quot;x, Funding&quot;, ylab=&quot;Residuals&quot;)</code></pre>
+<p><img src="Journal_files/figure-html/unnamed-chunk-42-1.png" width="672" /></p>
+<pre class="r"><code>plot(reg.output, which = 1)</code></pre>
+<p><img src="Journal_files/figure-html/unnamed-chunk-42-2.png" width="672" /> 2) The independence assumption is not satisfied as the produced graph, residuals vs x, displays a pattern between the two variables, suggesting a failure of independence.</p>
+<pre class="r"><code>plot(dat$funds, reg.output$residuals, main=&quot;Residuals vs. x&quot;, xlab=&quot;x, Funding&quot;, ylab=&quot;Residuals&quot;)</code></pre>
+<p><img src="Journal_files/figure-html/unnamed-chunk-43-1.png" width="672" /></p>
+<ol start="3" style="list-style-type: decimal">
+<li>The equal variance assumption, or homoscedasticity, is not satisfied as the produced red line features significant trends, informing us that the residuals and hence errors have non-constant variance.</li>
+</ol>
+<pre class="r"><code>plot(reg.output, which = 3)</code></pre>
+<p><img src="Journal_files/figure-html/unnamed-chunk-44-1.png" width="672" /></p>
+<ol start="4" style="list-style-type: decimal">
+<li>The normal population assumption does not appear to be satisfied as both ends of the QQ plot appear to be skewed, particularly the rightward portion which features significant outliers.</li>
+</ol>
+<pre class="r"><code>plot(reg.output, which = 2)</code></pre>
+<p><img src="Journal_files/figure-html/unnamed-chunk-45-1.png" width="672" /></p>
+<ol start="5" style="list-style-type: lower-alpha">
+<li>Answer the question of interest based on your analysis.</li>
+</ol>
+<p>Question of interest: does having more funding in a police department lead to fewer incidents of police brutality?</p>
+<p>Answer: The data has indicated that no significant relationship can be derived from the increased marginal funding and incidents of police brutality. While the initial linear regression estimated a significant relationship between the two variables, the four assumptions all failed to be satisfied. The incident highlights the importance of both running the linear regression model and assessing all four assumptions. This case may be the result of estimated correlatory figures depicting a significant relationship with erroneous sample data. We can thus justify the acceptance of the null hypothesis, despite a remarkably low t value. With none of the four assumptions being satisfied, my previous remarks on the estimated relationship must be rescinded. We accept the null hypothesis and remain skeptical of a bilateral relationship between police funding and incidents of police brutality.</p>
+</div>
+<div id="problem-3-2" class="section level3">
+<h3>Problem 3:</h3>
+<p>Describe the dataset. Considering our lecture on data ethics, what concerns do you have about the dataset? Once you perform your analysis to answer the question of interest using this dataset, what concerns might you have about the results?</p>
+<p>While assessing the data, I had various concerns regarding the dataset. For starters, there are continued issues in police reporting as law enforcement departments are often incentivized to underreport cases of brutality, skewing the figures. In fact, these very skewed figures may explain why the four tested assumptions failed despite a significant estimated relationship between the funding and incident variables. A reason behind the assumptions’ failures may be that the data itself was errneous, which could occur if figures were intentionally misrepresented. The result is most concerning as an initial linear regression assessment could have led may, particularly those who failed to assess the assumptions, to believe there is indeed a relationship between the two variables. The finding could have translated into policy, which would have been founded on ill-assessed asssessments.</p>
+<p><span class="math display">\[\\[2in]\]</span></p>
+</div>
+</div>
+<div id="assignment-4" class="section level1">
+<h1>Assignment 4</h1>
+<pre class="r"><code>library(tidyverse)
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy)) ## makes a scatterplot</code></pre>
+<p><img src="Journal_files/figure-html/unnamed-chunk-46-1.png" width="672" /></p>
+<pre class="r"><code>## template: ggplot(data = &lt;DATA&gt;) + &lt;GEOM_FUNCTION&gt;(mapping = aes(&lt;MAPPINGS&gt;)); + goes on first row
+
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy, color = class)) ## aes variable allows for differentiated mapping of data distributions</code></pre>
+<p><img src="Journal_files/figure-html/unnamed-chunk-46-2.png" width="672" /></p>
+<pre class="r"><code>ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy, size = class)) ## use size as a class, rather than color</code></pre>
+<p><img src="Journal_files/figure-html/unnamed-chunk-46-3.png" width="672" /></p>
+<pre class="r"><code># Left: alpha 
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy, alpha = class)) ## alpha class plots with transparency</code></pre>
+<p><img src="Journal_files/figure-html/unnamed-chunk-46-4.png" width="672" /></p>
+<pre class="r"><code># Right
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy, shape = class)) ## shape class plots with distinct shapes</code></pre>
+<p><img src="Journal_files/figure-html/unnamed-chunk-46-5.png" width="672" /></p>
+<pre class="r"><code>ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy), color = &quot;blue&quot;) ## color goes outside of the aes command</code></pre>
+<p><img src="Journal_files/figure-html/unnamed-chunk-46-6.png" width="672" /></p>
+<pre class="r"><code>ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy)) +  ##create a facet formula; distinct than grid
+  facet_wrap(~ class, nrow = 2)</code></pre>
+<p><img src="Journal_files/figure-html/unnamed-chunk-46-7.png" width="672" /></p>
+<pre class="r"><code>ggplot(data = mpg) + 
+  geom_smooth(mapping = aes(x = displ, y = hwy)) ## geom_smooth converts scatterplot to a range</code></pre>
+<p><img src="Journal_files/figure-html/unnamed-chunk-46-8.png" width="672" /></p>
+<pre class="r"><code>ggplot(data = mpg) + 
+  geom_smooth(mapping = aes(x = displ, y = hwy, linetype = drv)) ## &quot;linetype = drv)&quot; made overlapping graphs</code></pre>
+<p><img src="Journal_files/figure-html/unnamed-chunk-46-9.png" width="672" /></p>
+<pre class="r"><code>ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy)) + ##include the plus on the end of the line for overlapping
+  geom_smooth(mapping = aes(x = displ, y = hwy))</code></pre>
+<p><img src="Journal_files/figure-html/unnamed-chunk-46-10.png" width="672" /></p>
+<pre class="r"><code>ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
+  geom_point(mapping = aes(color = class)) + 
+  geom_smooth(data = filter(mpg, class == &quot;subcompact&quot;), se = FALSE) ## allows for local mapping classes without creating duplicates </code></pre>
+<p><img src="Journal_files/figure-html/unnamed-chunk-46-11.png" width="672" /></p>
+<pre class="r"><code>base &lt;- ggplot(mpg, aes(displ, hwy)) +
+  geom_point(aes(colour = class))
+
+base + theme(legend.position = &quot;left&quot;)</code></pre>
+<p><img src="Journal_files/figure-html/unnamed-chunk-46-12.png" width="672" /></p>
+<pre class="r"><code>base + theme(legend.position = &quot;top&quot;)</code></pre>
+<p><img src="Journal_files/figure-html/unnamed-chunk-46-13.png" width="672" /></p>
+<pre class="r"><code>base + theme(legend.position = &quot;bottom&quot;)</code></pre>
+<p><img src="Journal_files/figure-html/unnamed-chunk-46-14.png" width="672" /></p>
+<pre class="r"><code>base + theme(legend.position = &quot;right&quot;) # the default</code></pre>
+<p><img src="Journal_files/figure-html/unnamed-chunk-46-15.png" width="672" /></p>
+<pre class="r"><code>ggplot(diamonds, aes(carat, price)) +
+  geom_bin2d()</code></pre>
+<p><img src="Journal_files/figure-html/unnamed-chunk-46-16.png" width="672" /></p>
+<pre class="r"><code>ggplot(diamonds, aes(log10(carat), log10(price))) +
+  geom_bin2d()</code></pre>
+<p><img src="Journal_files/figure-html/unnamed-chunk-46-17.png" width="672" /></p>
+<p><span class="math display">\[\\[2in]\]</span></p>
+<p>[Assignment 5 coming soon]</p>
 </div>
 
 
