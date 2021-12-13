@@ -692,20 +692,33 @@ The data we examined for our assessment is derived from the Uniform Crime Report
 The UCR is regarded as the largest and arguably most reliable crime data source; however, researchers remain divided on its accuracy due to the nature of the program. We summarize popular arguments in order to provide context for our extrapolated findings. 
 
 The program’s support lies in:
+
 - It being the oldest and most consistent form of measuring crime, with the FBI providing accessible data as early as the 1960s;
+
 - Its broad national 98.4% metropolitan and 92.7% non-metropolitan coverage;
+
 - Its support for cross-year referencing and analysis;
+
 - Its consistently reliable reporting of higher level crimes;
+
 - And its agencies’ broad coverage of 97% of the national population
+
 
 Whereas, the program’s criticism results from:
 - The continued existence of underreporting, which in turn stems from:
+
   - Victims believing law enforcement cannot or will not act on their behalf;
+  
   - Victims fostering a standing fear of reprisal;
+  
   - Victims’ exposure to deterring cultural or social reporting stigmas;
+  
   - And victims’ normalization of certain crimes;
+  
 - Inconsistent law enforcement reporting practices;
+
 - And the general absence of “Victimless” crime in reportings
+
 
 We utilized the FBI UCR 2019 Report on Hate Crime Statistics for our specialized assessment. The dataset includes 14 tables detailing hate crimes on a national scale, with defined variables including bias motivation, crime types, and identifying offender/victim characteristics, among others. Our particular analysis required the use of tables 11 and 12. Jointly, both tables were used to contextualize the relationship between state’s reporting agencies and reported hate crimes, accounting for differences in agency counts, crime frequencies, and populations. 
 
