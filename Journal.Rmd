@@ -705,15 +705,16 @@ The program’s support lies in:
 
 
 Whereas, the program’s criticism results from:
+
 - The continued existence of underreporting, which in turn stems from:
 
-  - Victims believing law enforcement cannot or will not act on their behalf;
+     - Victims believing law enforcement cannot or will not act on their behalf;
   
-  - Victims fostering a standing fear of reprisal;
+     - Victims fostering a standing fear of reprisal;
   
-  - Victims’ exposure to deterring cultural or social reporting stigmas;
+     - Victims’ exposure to deterring cultural or social reporting stigmas;
   
-  - And victims’ normalization of certain crimes;
+     - And victims’ normalization of certain crimes;
   
 - Inconsistent law enforcement reporting practices;
 
